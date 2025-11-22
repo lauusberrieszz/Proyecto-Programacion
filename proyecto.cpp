@@ -158,11 +158,19 @@ void Vender_Boletas(Funciones Nuevo[],int Contador,struct Funciones Cart[4][5])
     cout << "--------Pantalla--------" << endl;
     cout << endl;
 
+    for(int Cc=0;Cc<10;Cc++)
+    {
+        cout << Cc+1 << " ";
+    }
+    cout << endl;
+
     for(int Cf=0;Cf<6;Cf++)
     {
+        cout << Cf+1 << " ";
+
         for(int Cc=0;Cc<10;Cc++)
         {
-            cout<<Nuevo[Codigo_peli].Asientos[Cf][Cc] << " ";
+            cout << Nuevo[Codigo_peli].Asientos[Cf][Cc] << " ";
         }
 
         cout << endl;
