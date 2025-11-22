@@ -291,7 +291,41 @@ void Busqueda_Nombre(struct Funciones Cart[4][5])
 
 void Registrar_Funcion()
 {
+    ofstream Archivo_Cart("archivocart.txt", ios::app); // Abrir el archivo en modo de escritura 
 
+    if (!Archivo_Cart.is_open()) 
+    {
+        cout << "Error al abrir el archivo para escritura." << endl;
+        return;
+    }
+
+    Funciones Nueva_Fun;
+    char Continuar;
+
+    do 
+    {
+        cout << "Hora de pelicula: ";
+        cin >> Nueva_Fun.Horario.Hora;
+        cout << "Minuto de Pelicula: ";
+        cin >> Nueva_Fun.Horario.Minutos;
+        cout << "Sala: ";
+        cin >> Nueva_Fun.Sala;
+        cout << "Precio Boletas: ";
+        cin >> Nueva_Fun.Precio_Boletas;
+        Nueva_Fun.Boletas_Disponibles = 60;
+        cout << "Nombre: ";
+        cin.ignore(); // Limpiar el búfer
+        getline(cin,Nueva_Fun.Nombre);
+        
+        Archivo_Cart << Nueva_Fun.Horario.Hora << " " << Nueva_Fun.Horario.Minutos << endl << 
+        Archivo_Cart << Nueva_Fun.Sala << endl << Nueva_Fun.Precio_Boletas << endl << Nueva_Fun.Boletas_Disponibles << endl << Nueva_Fun.Nombre;
+
+        cout << "¿Desea agregar otro producto? (S/N): ";
+        cin >> continuar;
+    } while (continuar == 'S' || continuar == 's');
+
+    archivo.close();
+}
 }
 
 ////Eliminar por Nombre
