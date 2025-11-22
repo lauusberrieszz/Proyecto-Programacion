@@ -317,22 +317,26 @@ void Registrar_Funcion()
         cin.ignore(); // Limpiar el búfer
         getline(cin,Nueva_Fun.Nombre);
         
-        Archivo_Cart << Nueva_Fun.Horario.Hora << " " << Nueva_Fun.Horario.Minutos << endl << 
-        Archivo_Cart << Nueva_Fun.Sala << endl << Nueva_Fun.Precio_Boletas << endl << Nueva_Fun.Boletas_Disponibles << endl << Nueva_Fun.Nombre;
+        Archivo_Cart << Nueva_Fun.Horario.Hora << " " << Nueva_Fun.Horario.Minutos << endl; 
+        Archivo_Cart << Nueva_Fun.Sala << endl;
+        Archivo_Cart << Nueva_Fun.Precio_Boletas << endl;
+        Archivo_Cart << Nueva_Fun.Boletas_Disponibles << endl;
+        Archivo_Cart << Nueva_Fun.Nombre << endl;
 
-        cout << "¿Desea agregar otro producto? (S/N): ";
-        cin >> continuar;
-    } while (continuar == 'S' || continuar == 's');
+        cout << "¿Desea agregar otra funcion? (S/N): ";
+        cin >> Continuar;
+    } while (Continuar == 'S' || Continuar == 's');
 
-    archivo.close();
+    Archivo_Cart.close();
 }
-}
+
 
 ////Eliminar por Nombre
 
 void Eliminar_Funcion()
 {
-
+    ifstream Archivo_Cart("archivocart.txt");
+    ofstream Archivo_Temp("archivotemp.txt");
 }
 
 ////Menu de Operador
