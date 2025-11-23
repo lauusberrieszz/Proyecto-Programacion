@@ -158,6 +158,8 @@ void Vender_Boletas(Funciones Nuevo[],int Contador,struct Funciones Cart[4][5])
     cout << "--------Pantalla--------" << endl;
     cout << endl;
 
+    cout << "  ";
+
     for(int Cc=0;Cc<10;Cc++)
     {
         cout << Cc+1 << " ";
@@ -289,54 +291,90 @@ void Busqueda_Nombre(struct Funciones Cart[4][5])
 
 ////Registrar Funcion
 
-void Registrar_Funcion()
-{
-    ofstream Archivo_Cart("archivocart.txt", ios::app); // Abrir el archivo en modo de escritura 
+void Registrar_Funcion() {
+  ofstream Archivo_Cart("archivocart.txt",
+                        ios::app); // Abrir el archivo en modo de escritura
 
-    if (!Archivo_Cart.is_open()) 
-    {
-        cout << "Error al abrir el archivo para escritura." << endl;
-        return;
-    }
+  if (!Archivo_Cart.is_open()) {
+    cout << "Error al abrir el archivo para escritura." << endl;
+    return;
+  }
 
-    Funciones Nueva_Fun;
-    char Continuar;
+  Funciones Nueva_Fun;
+  char Continuar;
 
-    do 
-    {
-        cout << "Hora de pelicula: ";
-        cin >> Nueva_Fun.Horario.Hora;
-        cout << "Minuto de Pelicula: ";
-        cin >> Nueva_Fun.Horario.Minutos;
-        cout << "Sala: ";
-        cin >> Nueva_Fun.Sala;
-        cout << "Precio Boletas: ";
-        cin >> Nueva_Fun.Precio_Boletas;
-        Nueva_Fun.Boletas_Disponibles = 60;
-        cout << "Nombre: ";
-        cin.ignore(); // Limpiar el búfer
-        getline(cin,Nueva_Fun.Nombre);
-        
-        Archivo_Cart << Nueva_Fun.Horario.Hora << " " << Nueva_Fun.Horario.Minutos << endl; 
-        Archivo_Cart << Nueva_Fun.Sala << endl;
-        Archivo_Cart << Nueva_Fun.Precio_Boletas << endl;
-        Archivo_Cart << Nueva_Fun.Boletas_Disponibles << endl;
-        Archivo_Cart << Nueva_Fun.Nombre << endl;
+  do {
+    cout << "Hora de pelicula: ";
+    cin >> Nueva_Fun.Horario.Hora;
+    cout << "Minuto de Pelicula: ";
+    cin >> Nueva_Fun.Horario.Minutos;
+    cout << "Sala: ";
+    cin >> Nueva_Fun.Sala;
+    cout << "Precio Boletas: ";
+    cin >> Nueva_Fun.Precio_Boletas;
+    Nueva_Fun.Boletas_Disponibles = 60;
+    cout << "Nombre: ";
+    cin.ignore(); // Limpiar el búfer
+    getline(cin, Nueva_Fun.Nombre);
 
-        cout << "¿Desea agregar otra funcion? (S/N): ";
-        cin >> Continuar;
-    } while (Continuar == 'S' || Continuar == 's');
+    Archivo_Cart << endl;
+    Archivo_Cart << Nueva_Fun.Horario.Hora << " " << Nueva_Fun.Horario.Minutos
+                 << endl;
+    Archivo_Cart << Nueva_Fun.Sala << endl;
+    Archivo_Cart << Nueva_Fun.Precio_Boletas << endl;
+    Archivo_Cart << Nueva_Fun.Boletas_Disponibles << endl;
+    Archivo_Cart << Nueva_Fun.Nombre << endl;
 
-    Archivo_Cart.close();
+    cout << "Desea agregar otra funcion? (S/N): "; cin >> Continuar;
+  } while (Continuar == 'S' || Continuar == 's');
+
+  Archivo_Cart.close();
 }
-
 
 ////Eliminar por Nombre
 
-void Eliminar_Funcion()
-{
-    ifstream Archivo_Cart("archivocart.txt");
-    ofstream Archivo_Temp("archivotemp.txt");
+void Eliminar_Funcion() {
+  ifstream Archivo_Cart("archivocart.txt");
+  ofstream Archivo_Temp("archivotemp.txt");
+
+  if (!Archivo_Cart.is_open() || !Archivo_Temp.is_open()) {
+    cout << "Error al abrir los archivos." << endl;
+    return;
+  }
+
+  string Nombre_Eliminar;
+  cout << "Ingrese el nombre de la funcion a eliminar: ";
+  cin.ignore();
+  getline(cin, Nombre_Eliminar);
+
+  Funciones Lectura[100];
+  int Contador = 0;
+
+    while(Archivo_Cart >> Lectura[Contador].Horario.Hora >> Lectura[Contador].Horario.Minutos >> Lectura[Contador].Sala >> Lectura[Contador].Genero >> Lectura[Contador].Precio_Boletas >> Lectura[Contador].Boletas_Disponibles)
+    {
+        Archivo_Cart.ignore();
+        getline(Archivo_Cart, Lectura[Contador].Nombre);
+        Contador++;
+    }
+
+  for (int i = 0; i < Contador; i++) {
+    if (Lectura[i].Nombre != Nombre_Eliminar) {
+      Archivo_Temp << Lectura[i].Horario.Hora << " "
+                   << Lectura[i].Horario.Minutos << endl;
+        Archivo_Temp << Lectura[i].Sala << endl;
+        Archivo_Temp << Lectura[i].Genero << endl;
+        Archivo_Temp << Lectura[i].Precio_Boletas << endl;
+        Archivo_Temp << Lectura[i].Boletas_Disponibles << endl;
+        Archivo_Temp << Lectura[i].Nombre << endl;
+    }
+  }
+
+    Archivo_Cart.close();
+    Archivo_Temp.close();
+    remove("archivocart.txt");
+    rename("archivotemp.txt", "archivocart.txt");
+    cout << "Funcion eliminada con exito" << endl;
+    cout << endl;
 }
 
 ////Menu de Operador
@@ -351,7 +389,7 @@ void Menu_Operador(struct Funciones Cart[4][5])
     {
         cout << "-----OPERACION DESEADA-----" << endl;
         cout << "1.Registrar Funcion" << endl;
-        cout << "2.Eliminar FUncion" << endl;
+        cout << "2.Eliminar Funcion" << endl;
         cout << "3.Volver a menu principal" << endl;
         cin >> Menu;
 
@@ -360,6 +398,7 @@ void Menu_Operador(struct Funciones Cart[4][5])
         case 1:
             Registrar_Funcion();
             cout << endl;
+            break;
         case 2:
             Eliminar_Funcion();
             cout << endl;
